@@ -1,5 +1,4 @@
 import React, { useState,useEffect } from "react";
-import { Header } from "./Header";
 import validateData from "../utils/validate";
 import { createUser, isUserSinnedIn, signInUser } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
@@ -10,12 +9,12 @@ import { addUser } from "../utils/store/userSlice";
 export const Login = () => {
   const navigate=useNavigate()
   useEffect(()=>{
-    console.log("use effect called")
-    console.log(isUserSinnedIn())
+    // console.log("use effect called")
+    // console.log(isUserSinnedIn())
     if(isUserSinnedIn()){
       navigate('/')
     }
-  },[])
+  },)
   const [formName, setFormName] = useState("Sign In");
   const [validationText, setValidationText] = useState(null);
   const [formData, setFormData] = useState({
@@ -36,22 +35,21 @@ export const Login = () => {
 
   const handleClick =async () => {
     let validateResult = validateData(formData.email, formData.password); //validate user entered password and email in frontend
-    console.log(validateResult);
+    //console.log(validateResult);
     if (validateResult === null) {//successfully validated
         if(formName==="Sign Up"){//for creating new user       
            const user= await createUser(formData.userName,formData.email,formData.password)
-             console.log(user)
+          
              const {displayName,email,uid}=user;
-             console.log("user siggned inn")
+        
              dispatch(addUser({displayName:displayName,email:email,uid:uid}))
             //dispatch(addUser({displayName:displayName,email:email,uid:uid}))
         }else{
             try{
               const user=await signInUser(formData.email,formData.password)
-              console.log("userName: ")
-              console.log(user.displayName)
+              
               const {displayName,email,uid}=user;
-              console.log("user siggned inn")
+              
               dispatch(addUser({displayName:displayName,email:email,uid:uid}))
               //dispatch(addUser({name:"samyakTest"}))
               navigate('/browse')
@@ -70,8 +68,8 @@ export const Login = () => {
   };
 
   return (
-    <div className="h-screen  sm:bg-movies-banner ">
-      <Header />
+    <div className="h-screen px-2 md:px-0 bg-black   sm:bg-movies-banner  ">
+      <LoginHeader />
       <div className="mt-10 p-5 bg-black bg-opacity-80 sm:p-14  sm:w-2/4 md:w-1/3   sm:mx-auto ">
         <span className="text-3xl mb-5 text-white font-semibold block">
           {formName}
@@ -161,3 +159,13 @@ export const Login = () => {
     </div>
   );
 };
+
+const LoginHeader=()=>{
+  return(
+    <div className='w-full'>
+    <div className='flex h-10 pt-4 mx-auto sticky bg-gradient-to-b from-black '>
+            <span className='text-red-700 m-1  font-semibold text-2xl sm:text-4xl sm:ml-32 text-center justify-center'>netflix</span>
+    </div>
+    </div>
+  )
+}

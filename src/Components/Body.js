@@ -13,9 +13,9 @@ const Body = () => {
       const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          console.log(user)
+          
           const {displayName,email,uid}=user;
-          console.log("user siggned inn")
+          
           dispatch(addUser({displayName:displayName,email:email,uid:uid}))
           navigate('/browse')
           // ...
