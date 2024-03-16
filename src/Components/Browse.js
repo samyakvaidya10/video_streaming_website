@@ -28,3 +28,17 @@ function Browse() {
 }
 
 export default Browse
+
+/* Structure of page
+  browse
+    - MainContainer Trailer playing area
+        - trailer in bg
+        - leftside trailer name and description and play now button
+
+    - Secondary Container
+        Recomended movies section
+        - sections  list
+        - movie card 
+          - name and image
+  
+*/
