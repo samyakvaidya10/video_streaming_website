@@ -8,16 +8,18 @@ export const Header = () => {
   const user=useSelector(store =>store.user)
   const navigate=useNavigate()
   return (
-    <div className='flex h-10 w-11/12 pt-4 mx-auto sticky bg-gradient-to-b from-black'>
+    <div className='sticky top-0 h-14  sm:h-0 w-11/12  mx-auto bg-gradient-to-b from-black'>
+      <div className='flex pt-4'>
             <span className='text-red-700 m-1 font-semibold text-xl text-center justify-center'>netflix</span>
             <div className='ml-auto flex h-fit ' >
               <span className='text-white m-1 pr-3'>Welcome {user.displayName}</span>
-              <img onClick={()=>setIsProfileClicked(!isProfileClicked)} width='35px'
+              <img onMouseOver={()=>setIsProfileClicked(true)} width='35px'
+                
                src={profileImg}alt='profile'
                className='cursor-pointer'></img>
             </div>
             {isProfileClicked&&
-        <div className='w-56  z-10 absolute right-0 mt-10 bg-black text-end'>
+        <div onMouseLeave={()=>{setIsProfileClicked(false)}} className='w-56  z-10 absolute right-0 mt-10 bg-black text-end'>
           <button className='text-white p-2 text-xl sm:text-base'
           onClick={()=>{signOutUser()
             navigate('/login')}}
@@ -26,7 +28,7 @@ export const Header = () => {
         </div>
       }
             
-
+            </div>
     </div>
 
   )

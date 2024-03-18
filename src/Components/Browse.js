@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { Header } from './Header'
 
 import useAddNowPlayingMovies from '../CuistomHooks/useAddNowPlayingMovies'
+import MainContainer from './MainContainer'
+import { SecondaryContainer } from './SecondaryContainer'
 
 
 function Browse() {
@@ -20,9 +22,13 @@ function Browse() {
   
   useAddNowPlayingMovies()
 
-  return (<div className='h-screen px-2  bg-black   '>
+  return (<div className='px-2  bg-black   '>
     <Header />
-    
+    <div className=''>   
+         <MainContainer />
+      <SecondaryContainer />
+    </div>
+
     </div>
   )
 }
