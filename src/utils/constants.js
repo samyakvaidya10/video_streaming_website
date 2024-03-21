@@ -10,4 +10,6 @@ const optionsMovieAPI = {
 const movieBannerLink="https://image.tmdb.org/t/p/original"
 
 
+
+
   export {optionsMovieAPI,movieBannerLink}

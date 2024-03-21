@@ -9,8 +9,8 @@ import { addUser, removeUser } from '../utils/store/userSlice';
 const Body = () => {
     const navigate=useNavigate()
     const dispatch=useDispatch()
+    const auth = getAuth();
     useEffect(()=>{
-      const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
         if (user) {
           
@@ -24,7 +24,7 @@ const Body = () => {
           // ...
           navigate('/login')
           dispatch(removeUser())
-          console.log("user siined out")
+          
         }
       });
     },[])

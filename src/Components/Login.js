@@ -1,28 +1,30 @@
 import React, { useState,useEffect } from "react";
 import validateData from "../utils/validate";
-import { createUser, isUserSinnedIn, signInUser } from "../utils/firebase";
+import { createUser,auth, signInUser, isUserSinnedIn } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/store/userSlice";
+import { onAuthStateChanged } from "firebase/auth";
 
 
 export const Login = () => {
-  const navigate=useNavigate()
-  useEffect(()=>{
-    // console.log("use effect called")
-    // console.log(isUserSinnedIn())
-    if(isUserSinnedIn()){
-      navigate('/')
-    }
-  },)
+  const navigate = useNavigate()
   const [formName, setFormName] = useState("Sign In");
   const [validationText, setValidationText] = useState(null);
   const [formData, setFormData] = useState({
     userName: "",
-    email: null,
-    password: null,
+    email: "",
+    password: "",
   });
+  
   const dispatch=useDispatch()
+ 
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      navigate('/browse')
+     
+    }
+  });
 
 
   const handleFormName = () => {
@@ -35,15 +37,21 @@ export const Login = () => {
 
   const handleClick =async () => {
     let validateResult = validateData(formData.email, formData.password); //validate user entered password and email in frontend
-    //console.log(validateResult);
     if (validateResult === null) {//successfully validated
-        if(formName==="Sign Up"){//for creating new user       
-           const user= await createUser(formData.userName,formData.email,formData.password)
+        if(formName==="Sign Up"){//for creating new user   
+          try{
+            const user= await createUser(formData.userName,formData.email,formData.password)
           
-             const {displayName,email,uid}=user;
-        
-             dispatch(addUser({displayName:displayName,email:email,uid:uid}))
-            //dispatch(addUser({displayName:displayName,email:email,uid:uid}))
+            const {displayName,email,uid}=user;
+       
+            dispatch(addUser({displayName:displayName,email:email,uid:uid}))
+           //dispatch(addUser({displayName:displayName,email:email,uid:uid}))
+           navigate('/browse')
+          }  
+          catch(error){
+            setValidationText(error);
+          }  
+           
         }else{
             try{
               const user=await signInUser(formData.email,formData.password)

@@ -1,32 +1,33 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { isUserSinnedIn, signOutUser } from '../utils/firebase'
+import React from 'react'
+import {  auth } from '../utils/firebase'
 import { useNavigate } from 'react-router-dom'
 import { Header } from './Header'
 
-import useAddNowPlayingMovies from '../CuistomHooks/useAddNowPlayingMovies'
+import useAddMoviesToStore from '../CuistomHooks/useAddMoviesToStore'
 import MainContainer from './MainContainer'
 import { SecondaryContainer } from './SecondaryContainer'
 
+import { onAuthStateChanged } from 'firebase/auth'
+
 
 function Browse() {
-  
-  const user=useSelector(store => store.user)
-  const movies=useSelector(store => store.movies)
   const navigate=useNavigate()
-  useEffect(()=>{
-    if(!isUserSinnedIn()){
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
       navigate('/login')
+     
     }
-  })
-  
-  useAddNowPlayingMovies()
+  });
+ 
 
-  return (<div className='px-2  bg-black   '>
+  
+  useAddMoviesToStore()
+
+  return (<div className='px-2  bg-black  '>
     <Header />
-    <div className=''>   
+    <div >   
          <MainContainer />
-      <SecondaryContainer />
+        <SecondaryContainer />
     </div>
 
     </div>

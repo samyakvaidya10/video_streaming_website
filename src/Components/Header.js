@@ -8,8 +8,8 @@ export const Header = () => {
   const user=useSelector(store =>store.user)
   const navigate=useNavigate()
   return (
-    <div className='sticky top-0 h-14  sm:h-0 w-11/12  mx-auto bg-gradient-to-b from-black'>
-      <div className='flex pt-4'>
+    <div className='sticky top-0 h-14 z-20 sm:h-0   mx-auto '>
+      <div className='flex pt-4 px-5 bg-gradient-to-b from-black '>
             <span className='text-red-700 m-1 font-semibold text-xl text-center justify-center'>netflix</span>
             <div className='ml-auto flex h-fit ' >
               <span className='text-white m-1 pr-3'>Welcome {user.displayName}</span>

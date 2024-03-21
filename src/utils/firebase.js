@@ -4,6 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 
 //for sign in authentication 
 import { getAuth, createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,signOut } from "firebase/auth";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,9 +27,9 @@ console.log("analytics"+analytics)
 
 
 const auth = getAuth();
-
 const isUserSinnedIn =()=>{
   const user = auth.currentUser;
+
   if (user) {
     return true;
   }else{
@@ -36,32 +37,43 @@ const isUserSinnedIn =()=>{
   }
 }
 
-const  createUser =(displayName,email,password)=>{
+const getUser=()=>{
+  const userPromise=new Promise((resolve,reject)=>{
+    const user =  auth.currentUser;
 
-      
-    
-   
-
-    createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed up is done
-    const user = userCredential.user;
-    //update username
-    const userName=displayName
-    console.log("userName :"+userName)
-    updateProfile(user,{displayName:userName})
-    console.log(user)
-    console.log("User created and display name updated successfully!")
-    // ...
+    resolve(user)
   })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log("Error in creating new user")
-    console.log(errorCode)
-    console.log(errorMessage)
-    // ..
-  });
+  return userPromise
+}
+
+const  createUser =(displayName,email,password)=>{
+  const userPromise=new Promise((resolve,reject)=>{
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed up is done
+      const user = userCredential.user;
+      //update username
+      const userName=displayName
+      console.log("userName :"+userName)
+      updateProfile(user,{displayName:userName})
+      console.log(user)
+      console.log("User created and display name updated successfully!")
+      resolve(user)
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log("Error in creating new user")
+      console.log(errorCode)
+      console.log(errorMessage)
+      reject(errorCode)
+      // ..
+    });
+  })
+   
+  return userPromise
+
 }
 
 const signInUser = (email,password)=>{
@@ -80,7 +92,7 @@ const signInUser = (email,password)=>{
       console.log("Error in sign in new user")
       console.log(errorCode)
       console.log(errorMessage)
-      reject(errorMessage)
+      reject(errorCode)
     });
   })
   return userPromise
@@ -96,4 +108,4 @@ const signOutUser=()=>{
   });
 }
 
-  export  {isUserSinnedIn,createUser,signInUser,auth,signOutUser};
+  export  {isUserSinnedIn,createUser,signInUser,auth,signOutUser,getUser};

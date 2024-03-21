@@ -2,10 +2,11 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { MovieBGTrailer } from './MovieBGTrailer'
 const MainContainer = () => {
-  const movies=useSelector(store =>store.movies?.nowPlayingMovies)
-  if(movies===null) return
-  const bannerMovie=movies[1]
-  console.log(bannerMovie)
+  const movies=useSelector(store =>store.movies)
+
+  if(movies.length===0) return <>Shimmer</>
+  // return<>Shimmer</>
+  const bannerMovie=movies[0].movies[0]
   return (
     <div>
 
@@ -20,7 +21,7 @@ const MainContainer = () => {
       </div> */}
 
       
-        <div className='z-10 absolute top-1/2 ml-20'>
+        <div className='z-10 absolute bottom-1/3 ml-20'>
               <span className='text-white relative font-serif text-7xl' >{bannerMovie.title}</span>
               {/* <span class="absolute inset-0 bg-red-500 opacity-25 blur-sm rounded-md"></span> */}
               <div className='w-96 text-base font-semibold'>
