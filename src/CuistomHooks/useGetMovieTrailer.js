@@ -7,7 +7,7 @@ const useGetMovieTrailer=(movieId)=>{
     const fetchMovieVideos=async()=>{
         const data=await fetch(movieVideoAPI,optionsMovieAPI);
         const json=await data.json();
-        const trailerVideo= await json.results.filter(video=> video.type==="Teaser")
+        const trailerVideo= await json.results.filter(video=> video.type==="Teaser"||video.type==="Trailer")
         setTrailerVideo(trailerVideo)  
     }
     useEffect(()=>{

@@ -1,24 +1,45 @@
-import React, { useState } from 'react'
-import { movieBannerLink } from '../utils/constants'
+import React, { useState } from "react";
+import { movieBannerLink } from "../utils/constants";
+import { unstable_useViewTransitionState, useNavigate } from "react-router-dom";
+import useCardHover from "../CuistomHooks/useCardHover";
+import { hover } from "@testing-library/user-event/dist/hover";
 
-export const MovieCard = ({movie}) => {
-    const [isMouseOver,setMouseOver]=useState(false)
-    const handleMouseEnter=()=>{
-        setMouseOver(true)
-    }
-    const  handleMouseLeave=()=>{
-        setMouseOver(false)
-    }
+export const MovieCard = ({ movie }) => {
+  // console.log(movie)
+  const [isMouseOver, setMouseOver] = useState(false);
+
+  //console.log(movie)
+
+  const navigate=useNavigate()
+  
+  const handleMouseEnter = () => {
+   
     
+  };
+  
+  const handleMouseLeave = () => {
+   
+
+  };
+
   return (
+    <div className="hover:cursor-pointer"  onClick={()=>{navigate('play_movie/'+movie.id)}}>
+      <div
+        onMouseEnter={() => {
+          handleMouseEnter();
+        }}
+        onMouseLeave={() => {
+          handleMouseLeave();
+        }}
+        className="w-40 "
+      >
+        <img
+          alt="movie banner "
+          className={" mx-auto rounded-md"}
+          src={movieBannerLink + movie.poster_path}
+        />
 
-    
-    <div className='w-40'>
-         <img alt='movie banner ' 
-            className={' mx-auto rounded-md'} 
-            src={movieBannerLink+movie.poster_path}/>
-            
-    {/* <div onMouseEnter={()=>{handleMouseEnter()}} onMouseLeave={()=>{handleMouseLeave()}}
+        {/* <div onMouseEnter={()=>{handleMouseEnter()}} onMouseLeave={()=>{handleMouseLeave()}}
         className='relative  w-64  hover:scale-125'>
          <img alt='movie banner ' 
             className={'h-36 mx-auto rounded-md'} 
@@ -33,7 +54,11 @@ export const MovieCard = ({movie}) => {
         
         
     </div> */}
+      </div>
+      {/* {isMouseOver&&<div className='text-white  '>
+        <span></span>
+        </div>
+        } */}
     </div>
-  )
-}
-
+  );
+};

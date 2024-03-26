@@ -128,8 +128,11 @@ export const Login = () => {
           />
 
           <span className="text-yellow-500 text-sm ">{validationText}</span>
+          
+          
+
           <button
-            className="block bg-red-600 text-white my-10 h-12 rounded-md w-full"
+            className="block  bg-red-600 text-white my-10 h-12 rounded-md w-full"
             onClick={() => handleClick()}
           >
             {formName}
